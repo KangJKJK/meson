@@ -6,6 +6,10 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+print_command() {
+  echo -e "${BOLD}${YELLOW}$1${RESET}"
+}
+
 echo -e "${GREEN}Meson network 노드 설치를 시작합니다.${NC}"
 
 # 사용자에게 명령어 결과를 강제로 보여주는 함수
@@ -31,6 +35,15 @@ sudo ./apphub service start
 
 # 노드의 개인키 및 본인의 IP를 표시합니다.
 req "서비스가 OK로 출력되는지 확인하세요." sudo ./apphub status
+
+# 웹과 연동.
+echo -e "${GREEN}https://dashboard.gaganode.com/install_run 해당 사이트에 접속하여 토큰ID를 복사하세요.${NC}"
+
+# 사용자로부터 토큰 ID를 입력받습니다.
+read -p "위 사이트에서 복사한 토큰 ID를 입력해주세요: " TOKEN_ID
+
+# 입력받은 토큰 ID를 사용하여 명령어를 실행합니다.
+req "토큰 ID를 사용하여 Gaganode 설정을 적용합니다." sudo ./apps/gaganode/gaganode config set --token="$TOKEN_ID"
 
 echo -e "${GREEN}모든 작업이 완료되었습니다. 컨트롤+A+D로 스크린을 종료해주세요.${NC}"
 echo -e "${GREEN}스크립트 작성자: https://t.me/kjkresearch${NC}"
