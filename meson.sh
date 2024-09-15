@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}Network3 노드 설치를 시작합니다.${NC}"
+echo -e "${GREEN}Meson network 노드 설치를 시작합니다.${NC}"
 
 # 사용자에게 명령어 결과를 강제로 보여주는 함수
 req() {
