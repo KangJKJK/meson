@@ -46,6 +46,17 @@ read -p "위 사이트에서 복사한 토큰 ID를 입력해주세요: " TOKEN_
 echo -e "${YELLOW}토큰 ID를 사용하여 Gaganode 설정을 적용합니다.${NC}"
 sudo ./apps/gaganode/gaganode config set --token="$TOKEN_ID"
 
+# 현재 사용 중인 포트 확인
+used_ports=$(netstat -tuln | awk '{print $4}' | grep -o '[0-9]*$' | sort -u)
+
+# 각 포트에 대해 ufw allow 실행
+for port in $used_ports; do
+    echo -e "${GREEN}포트 ${port}을(를) 허용합니다.${NC}"
+    sudo ufw allow $port
+done
+
+echo -e "${GREEN}모든 사용 중인 포트가 허용되었습니다.${NC}"
+
 # 서비스 상태를 다시 확인합니다.
 req "status가 running으로 출력되는지 다시 한번 확인하세요." sudo ./apphub status
 echo -e "${GREEN}해당 사이트에 방문하여 대시보드를 확인하세요:https://dashboard.gaganode.com/nodes${NC}"
