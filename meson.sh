@@ -34,7 +34,7 @@ sudo ./apphub service remove && sudo ./apphub service install
 sudo ./apphub service start
 
 # 노드의 개인키 및 본인의 IP를 표시합니다.
-req "서비스가 OK로 출력되는지 확인하세요." sudo ./apphub status
+req "서비스가 OK로 출력되는지 확인하시고 엔터를 누르세요" sudo ./apphub status
 
 # 웹과 연동.
 echo -e "${GREEN}https://dashboard.gaganode.com/install_run 해당 사이트에 접속하여 토큰ID를 복사하세요.${NC}"
@@ -48,6 +48,6 @@ sudo ./apps/gaganode/gaganode config set --token="$TOKEN_ID"
 
 # 서비스 상태를 다시 확인합니다.
 req "status가 running으로 출력되는지 다시 한번 확인하세요." sudo ./apphub status
-
+echo -e "${GREEN}해당 사이트에 방문하여 대시보드를 확인하세요:https://dashboard.gaganode.com/nodes${NC}"
 echo -e "${GREEN}모든 작업이 완료되었습니다. 컨트롤+A+D로 스크린을 종료해주세요.${NC}"
 echo -e "${GREEN}스크립트 작성자: https://t.me/kjkresearch${NC}"
