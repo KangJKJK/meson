@@ -44,7 +44,11 @@ read -p "위 사이트에서 복사한 토큰 ID를 입력해주세요: " TOKEN_
 
 # 입력받은 토큰 ID를 사용하여 명령어를 실행합니다.
 echo -e "${YELLOW}토큰 ID를 사용하여 Gaganode 설정을 적용합니다.${NC}"
-sudo ./apps/gaganode/gaganode config set --token="$TOKEN_ID"
+# TOKEN_ID를 default.toml 파일의 token 부분에 저장합니다.
+CONFIG_FILE="/root/apphub-linux-amd64/apps/gaganode/root_conf/default.toml"
+
+# sed 명령어로 token 값을 업데이트합니다.
+sudo sed -i "s/^token = ''/token = '$TOKEN_ID'/" $CONFIG_FILE
 
 # 현재 사용 중인 포트 확인
 used_ports=$(netstat -tuln | awk '{print $4}' | grep -o '[0-9]*$' | sort -u)
