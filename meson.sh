@@ -50,6 +50,9 @@ CONFIG_FILE="/root/apphub-linux-amd64/apps/gaganode/root_conf/default.toml"
 # sed 명령어로 token 값을 업데이트합니다.
 sudo sed -i "s/^token = ''/token = '$TOKEN_ID'/" $CONFIG_FILE
 
+# 노드재실행
+sudo ./apphub restart
+
 # 현재 사용 중인 포트 확인 및 허용
 echo -e "${GREEN}현재 사용 중인 포트를 확인합니다...${NC}"
 
