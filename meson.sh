@@ -50,18 +50,26 @@ CONFIG_FILE="/root/apphub-linux-amd64/apps/gaganode/root_conf/default.toml"
 # sed 명령어로 token 값을 업데이트합니다.
 sudo sed -i "s/^token = ''/token = '$TOKEN_ID'/" $CONFIG_FILE
 
-# 현재 사용 중인 포트 확인
-used_ports=$(netstat -tuln | awk '{print $4}' | grep -o '[0-9]*$' | sort -u)
+# 현재 사용 중인 포트 확인 및 허용
+echo -e "${GREEN}현재 사용 중인 포트를 확인합니다...${NC}"
 
-# 각 포트에 대해 ufw allow 실행
-for port in $used_ports; do
-    echo -e "${GREEN}포트 ${port}을(를) 허용합니다.${NC}"
-    sudo ufw allow $port
-    sudo ufw allow 5060/tcp
-    sudo ufw allow 36060/tcp
+# TCP 포트 확인 및 허용
+echo -e "${YELLOW}TCP 포트 확인 및 허용 중...${NC}"
+sudo ss -tlpn | grep LISTEN | awk '{print $4}' | cut -d':' -f2 | while read port; do
+    echo -e "TCP 포트 ${GREEN}$port${NC} 허용"
+    sudo ufw allow $port/tcp
 done
 
-echo -e "${GREEN}모든 사용 중인 포트가 허용되었습니다.${NC}"
+# UDP 포트 확인 및 허용
+echo -e "${YELLOW}UDP 포트 확인 및 허용 중...${NC}"
+sudo ss -ulpn | grep LISTEN | awk '{print $4}' | cut -d':' -f2 | while read port; do
+    echo -e "UDP 포트 ${GREEN}$port${NC} 허용"
+    sudo ufw allow $port/udp
+done
+
+# 상태 확인
+echo -e "${GREEN}허용된 포트 목록:${NC}"
+sudo ufw status numbered
 
 # 서비스 상태를 다시 확인합니다.
 req "status가 running으로 출력되는지 다시 한번 확인하세요." sudo ./apphub status
